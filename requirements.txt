@@ -1,0 +1,4 @@
+pygame==2.5.2
+torch
+numpy
+matplotlib==3.8.0
