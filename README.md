@@ -1,110 +1,133 @@
-# Self-Driving Car AI
+# 🚗 Self-Driving Car AI
 
-This project is a simulation of a self-driving car that learns to navigate a race track using a deep neural network. The project uses Pygame for the simulation environment and PyTorch for the AI model.
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=pytorch&logoColor=white)
+![Pygame](https://img.shields.io/badge/Pygame-00B140?style=flat&logo=python&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue?style=flat)
 
-## Features
+A 2D racing simulation where a car **teaches itself to drive** using Deep Reinforcement Learning — built entirely from scratch with PyTorch and Pygame.
 
-*   **Realistic 2D Simulation:** A 2D racing environment with a car and a track.
-*   **Deep Reinforcement Learning:** The car is trained using a Deep Q-Network (DQN) to make decisions based on sensor readings.
-*   **Multiple Modes:**
-    *   **Train:** Train a new AI model.
-    *   **Test:** Test a trained model.
-    *   **Manual:** Drive the car manually.
-    *   **Race:** Race multiple AI-driven cars against each other.
-*   **Interactive Menu:** A user-friendly menu to select different modes and options.
-*   **Training Analysis:** Plots are generated to visualize the training progress.
+> 💡 **No human-written driving rules. The car learns everything from scratch through trial, error, and reward signals.**
 
-## Installation
+<!-- Add a GIF here once you record one: -->
+<!-- ![Demo GIF](assets/demo.gif) -->
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/mohian-saadman/Self_driving_car_ai.git
-    cd Self_driving_car_ai
-    ```
+---
 
-2.  **Create a virtual environment and activate it:**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
+## 🧠 How It Works
 
-3.  **Install the dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+The car is controlled by a **Deep Q-Network (DQN)** — a reinforcement learning algorithm where the agent learns by interacting with the environment and maximising cumulative reward.
 
-## Usage
+**Input:** 5 distance sensors (rays) detecting track boundaries  
+**Output:** 4 actions — accelerate, brake, turn left, turn right  
+**Reward:** +1 for each checkpoint passed, −100 for crashing  
 
-To run the project, use the `main.py` script. The default mode is the menu.
+Key RL techniques implemented:
+- **Experience Replay** — stores past transitions in a memory buffer to break correlation between samples
+- **Target Network** — a separate frozen network updated periodically to stabilise training
+- **Epsilon-Greedy Exploration** — balances exploring new actions vs. exploiting learned knowledge
+- **Batch Training** — samples random minibatches from memory each step
 
-```bash
-python main.py
-```
+---
 
-You can also specify a mode using the `--mode` argument:
+## ✨ Features
 
-```bash
-python main.py --mode [train|test|manual|race]
-```
+- **Realistic 2D Simulation** — car physics with momentum, turning radius, and wall collision
+- **Deep Q-Network (DQN)** — learns from sensor readings, no hand-coded driving logic
+- **4 Modes:**
+  - `train` — train a new AI model from scratch
+  - `test` — watch a trained model drive
+  - `manual` — drive the car yourself with keyboard
+  - `race` — pit multiple trained AI models against each other
+- **Interactive Menu** — user-friendly mode selector on launch
+- **Training Plots** — real-time graphs of rewards and loss saved to `/plots`
 
-### Menu
+---
 
-The menu allows you to:
-*   **Train a new model:** You will be prompted to enter a name for your new model.
-*   **Test a model:** Select a pre-trained model to see how it performs.
-*   **Race models:** Select multiple models to race against each other.
-*   **Drive manually:** Control the car with your keyboard.
-*   **Quit:** Exit the application.
-
-### Training
-
-To train a new model, select the "Train" option from the menu or run:
-
-```bash
-python main.py --mode train --episodes <num_episodes>
-```
-
-The trained model will be saved in the `models/` directory, and training progress plots will be saved in the `plots/` directory.
-
-### Testing
-
-To test a model, select the "Test" option from the menu or run:
-
-```bash
-python main.py --mode test
-```
-
-This will load the `best_model.pth` by default.
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 .
 ├── ai/
-│   ├── model.py        # Neural network architecture
-│   └── trainer.py      # Training and testing logic
+│   ├── model.py        # DQN neural network architecture
+│   └── trainer.py      # Training loop, replay buffer, target network
 ├── game/
-│   ├── car.py          # Car physics and sensors
+│   ├── car.py          # Car physics and sensor rays
 │   ├── environment.py  # Pygame simulation environment
 │   ├── menu.py         # Interactive menu
 │   ├── track.py        # Race track
 │   └── utils.py        # Utility functions
 ├── models/
-│   └── best_model.pth  # Example of a trained model
-├── plots/
-│   └── ...             # Training progress plots
-├── main.py             # Main entry point
-└── requirements.txt    # Project dependencies
+│   └── best_model.pth  # Pre-trained model checkpoint
+├── plots/              # Training progress graphs
+├── main.py             # Entry point
+└── requirements.txt
 ```
 
-## Technologies Used
+---
 
-*   [Python](https://www.python.org/)
-*   [Pygame](https://www.pygame.org/) for the simulation.
-*   [PyTorch](https://pytorch.org/) for the neural network.
-*   [NumPy](https://numpy.org/) for numerical operations.
-*   [Matplotlib](https://matplotlib.org/) for plotting training progress.
+## ⚙️ Installation
 
-## License
+```bash
+# 1. Clone the repo
+git clone https://github.com/mohian-saadman/Self_driving_car_ai.git
+cd Self_driving_car_ai
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+# 2. Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+```
+
+---
+
+## 🚀 Usage
+
+```bash
+# Launch the interactive menu (default)
+python main.py
+
+# Or go straight to a mode
+python main.py --mode train --episodes 500
+python main.py --mode test
+python main.py --mode manual
+python main.py --mode race
+```
+
+Trained models are saved to `models/` and training plots to `plots/`.
+
+---
+
+## 🛠️ Tech Stack
+
+| Library | Purpose |
+|---|---|
+| PyTorch | DQN neural network & training |
+| Pygame | 2D simulation environment |
+| NumPy | Sensor data & numerical ops |
+| Matplotlib | Training progress plots |
+
+---
+
+## 📈 Training Results
+
+> Add a screenshot of your training plot here once you have one.  
+> Example: reward increasing over episodes = the car is learning.
+
+<!-- ![Training Plot](plots/training_progress.png) -->
+
+---
+
+## 🤝 Connect
+
+Built by **Md. Mohian Hasan Saadman**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/mohianhasan)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/mohian-saadman)
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE) for details.
